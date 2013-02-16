@@ -12,6 +12,6 @@ public interface Tarifacsomag {
     
     public float számít(int belülPerc, int belülDarab, 
             int kívülPerc, int kívülDarab, int vezetékesPerc, int vezetékesDarab, 
-            int smsDarab);
+            int smsDarab, int családiDarab);
     
 }
