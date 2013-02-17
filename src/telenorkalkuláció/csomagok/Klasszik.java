@@ -9,27 +9,29 @@ package telenorkalkuláció.csomagok;
  * @author Család
  */
 public class Klasszik implements Tarifacsomag {
-    private float áfa = 1.27f;
     private float családiCsomag = 1099;
     
     private float havidíj;
     
-    private float lebeszélhetőBelül = (float)(havidíj * 0.6);
-    private float lebeszélhetőKívül = (float)(havidíj * 0.4);
+    private float lebeszélhetőBelül;
+    private float lebeszélhetőKívül;
     
     private float percdíjLebeszélhető;
     private float percdíj;
-    private float vezetékesPercdíj = 5.51f;
+    private float vezetékesPercdíj = 5.51f * 1.27f;
     private float smsdíj;
     
-    private float kapcsolásiDíj = 1.96f;
-    private float vezetékesKapcsolásiDíj = 5.51f;
+    private float kapcsolásiDíj = 1.96f * 1.27f;
+    private float vezetékesKapcsolásiDíj = 5.51f * 1.57f;
 
     public Klasszik(float havidíj, float percdíjLebeszélhető, float percdíj, float smsdíj) {
         this.havidíj = havidíj;
         this.percdíjLebeszélhető = percdíjLebeszélhető;
         this.percdíj = percdíj;
         this.smsdíj = smsdíj;
+        
+        lebeszélhetőBelül = (float)(havidíj * 0.6);
+        lebeszélhetőKívül = (float)(havidíj * 0.4);
     }
 
     
@@ -41,27 +43,30 @@ public class Klasszik implements Tarifacsomag {
         
         float fizetni = havidíj + családiCsomag;
         
-        float lebeszélhetőPerc, továbbiPerc;
-        
         // hálózaton belül
-        lebeszélhetőPerc = Math.min(lebeszélhetőBelül / percdíjLebeszélhető, belülPerc);
-        továbbiPerc = Math.max(belülPerc - lebeszélhetőPerc, 0);
-        fizetni += továbbiPerc * percdíj * áfa + belülDarab * kapcsolásiDíj * áfa;
+        float belülLebeszélhetőPerc = Math.min(lebeszélhetőBelül / percdíjLebeszélhető, belülPerc);
+        float belülTovábbiPerc = Math.max(belülPerc - belülLebeszélhetőPerc, 0);
+        
+        fizetni += belülTovábbiPerc * percdíj
+                 + belülDarab * kapcsolásiDíj;
         
         // hálózaton kívül
-        lebeszélhetőPerc = Math.min(lebeszélhetőKívül / percdíjLebeszélhető, kívülPerc);
-        továbbiPerc = Math.max(kívülPerc - lebeszélhetőPerc, 0);
-        fizetni += továbbiPerc * percdíj * áfa + kívülDarab * kapcsolásiDíj * áfa;
+        float kívülLebeszélhetőPerc = Math.min(lebeszélhetőKívül / percdíjLebeszélhető, kívülPerc);
+        float kívülTovábbiPerc = Math.max(kívülPerc - kívülLebeszélhetőPerc, 0);
+        
+        fizetni += kívülTovábbiPerc * percdíj 
+                 + kívülDarab * kapcsolásiDíj;
         
         // vezetékes
-        fizetni += vezetékesPerc * vezetékesPercdíj * áfa 
-                + vezetékesDarab * vezetékesKapcsolásiDíj * áfa;
+        fizetni += vezetékesPerc * vezetékesPercdíj
+                + vezetékesDarab * vezetékesKapcsolásiDíj;
+        
         
         // családi
-        fizetni += családiDarab * kapcsolásiDíj * áfa;
+        fizetni += családiDarab * kapcsolásiDíj;
         
         // sms
-        fizetni += smsDarab * smsdíj * áfa;
+        fizetni += smsDarab * smsdíj;
         
         return fizetni;
     }
