@@ -4,6 +4,8 @@
  */
 package telenorkalkuláció;
 
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import telenorkalkuláció.csomagok.Klasszik;
 
 /**
@@ -31,8 +33,7 @@ public class Számlaadatok extends javax.swing.JPanel {
     }
     
     private int getÉrték(String értékSzöveg) {
-        értékSzöveg.replaceAll("\\s","");
-        String[] tagok = értékSzöveg.split("\\+");
+        String[] tagok = értékSzöveg.replaceAll("\\s","").split("\\+");
         
         int érték = 0;
         
@@ -79,6 +80,7 @@ public class Számlaadatok extends javax.swing.JPanel {
         kívülPerc = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         vezetékesDarab = new javax.swing.JTextField();
+        ment = new javax.swing.JButton();
 
         jLabel9.setText("darab");
 
@@ -108,6 +110,13 @@ public class Számlaadatok extends javax.swing.JPanel {
 
         jLabel4.setText("Hálózaton kívüli mobilhívások");
 
+        ment.setText("Mentés");
+        ment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mentActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -133,40 +142,40 @@ public class Számlaadatok extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel8))
+                                .addGap(82, 82, 82)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(smsDarab, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                                    .addComponent(családiDarab)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(187, 187, 187)
+                                .addComponent(kívülDarab, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(kívülDarab, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                            .addComponent(kívülPerc))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addGap(128, 128, 128))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8))
-                        .addGap(82, 82, 82)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(smsDarab, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                            .addComponent(családiDarab))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel11)
-                                .addGap(128, 128, 128))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addContainerGap())))))
+                        .addComponent(kívülPerc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(60, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ment)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,9 +225,63 @@ public class Számlaadatok extends javax.swing.JPanel {
                             .addComponent(smsDarab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ment)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mentActionPerformed
+        System.out.println("save");
+        save();
+        System.out.println("");
+    }//GEN-LAST:event_mentActionPerformed
+
+    private void save() {
+        JTabbedPane parent = (JTabbedPane) getParent();
+        int currentIndex = parent.getSelectedIndex();
+        parent.setTitleAt(currentIndex, hónapNév.getText());
+        Ablak ablak = TelenorKalkuláció.getAblak();
+        ablak.refreshTáblázat();
+//        ablak.addRowToTable(hónapNév.getText(), 
+//                getÉrték(belülPerc.getText()), getÉrték(belülDarab.getText()), 
+//                getÉrték(kívülPerc.getText()), getÉrték(kívülDarab.getText()), 
+//                getÉrték(vezetékesPerc.getText()), getÉrték(vezetékesDarab.getText()), 
+//                getÉrték(smsDarab.getText()), getÉrték(családiDarab.getText()));
+    }
+
+    public int getBelülDarab() {
+        return getÉrték(belülDarab.getText());
+    }
+
+    public int getBelülPerc() {
+        return getÉrték(belülPerc.getText());
+    }
+
+    public int getCsaládiDarab() {
+        return getÉrték(családiDarab.getText());
+    }
+
+    public int getKívülDarab() {
+        return getÉrték(kívülDarab.getText());
+    }
+
+    public int getKívülPerc() {
+        return getÉrték(kívülPerc.getText());
+    }
+
+    public int getSmsDarab() {
+        return getÉrték(smsDarab.getText());
+    }
+
+    public int getVezetékesDarab() {
+        return getÉrték(vezetékesDarab.getText());
+    }
+
+    public int getVezetékesPerc() {
+        return getÉrték(vezetékesPerc.getText());
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField belülDarab;
     private javax.swing.JTextField belülPerc;
@@ -240,6 +303,7 @@ public class Számlaadatok extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField kívülDarab;
     private javax.swing.JTextField kívülPerc;
+    private javax.swing.JButton ment;
     private javax.swing.JTextField smsDarab;
     private javax.swing.JTextField vezetékesDarab;
     private javax.swing.JTextField vezetékesPerc;

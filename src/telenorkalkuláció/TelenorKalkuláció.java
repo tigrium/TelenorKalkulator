@@ -4,19 +4,17 @@
  */
 package telenorkalkuláció;
 
-import java.awt.Window;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import telenorkalkuláció.csomagok.Klasszik;
 
 /**
  *
  * @author Család
  */
 public class TelenorKalkuláció {
-
+    private static Ablak ablak;
     /**
      * @param args the command line arguments
      */
@@ -28,17 +26,16 @@ public class TelenorKalkuláció {
         
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(TelenorKalkuláció.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(TelenorKalkuláció.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(TelenorKalkuláció.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException 
+                | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(TelenorKalkuláció.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        Ablak ablak = new Ablak();
+        ablak = new Ablak();
         ablak.setVisible(true);
+    }
+
+    public static Ablak getAblak() {
+        return ablak;
     }
 }

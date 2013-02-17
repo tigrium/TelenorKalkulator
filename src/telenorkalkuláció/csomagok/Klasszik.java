@@ -10,7 +10,6 @@ package telenorkalkuláció.csomagok;
  */
 public class Klasszik implements Tarifacsomag {
     private float családiCsomag = 1099;
-    
     private float havidíj;
     
     private float lebeszélhetőBelül;

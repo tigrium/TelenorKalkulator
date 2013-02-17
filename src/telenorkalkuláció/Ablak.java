@@ -4,29 +4,103 @@
  */
 package telenorkalkuláció;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableModel;
 import telenorkalkuláció.csomagok.Klasszik;
+import telenorkalkuláció.csomagok.Perc;
 
 /**
  *
  * @author Család
  */
-public class Ablak extends javax.swing.JFrame {
-    private ComboBoxModel model;
+public class Ablak extends javax.swing.JFrame implements MouseListener {
+    private BufferedImage logo;
     
+    private Perc perc35 = new Perc(1415, 35, 4.5f, 4.5f);
+    private Perc perc180 = new Perc(5597, 180, 31.1f, 31.1f);
     private Klasszik klasszik2 = new Klasszik(2590, 36.5f, 39, 39);
     private Klasszik klasszik3 = new Klasszik(3990, 34f, 38, 38);
     private Klasszik klasszik4 = new Klasszik(5590, 31.5f, 34.5f, 34.5f);
-
+    
     /**
      * Creates new form Ablak
      */
     public Ablak() {
-        model = new DefaultComboBoxModel<>(new String[] {"Klasszik 2", "Klasszik 3", "Klasszik 4"});
+        try {
+            logo = ImageIO.read(new File("logo.png"));
+        } catch (IOException ex) {
+            Logger.getLogger(Ablak.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         initComponents();
         setLocationRelativeTo(null);
+        
+        tabbedPane.addMouseListener(this);
+    }
+    
+    public void addRowToTable(String title, int belülPerc, int belülDarab, 
+            int kívülPerc, int kívülDarab, int vezetékesPerc, int vezetékesDarab, 
+            int smsDarab, int családiDarab) {
+        DefaultTableModel model = (DefaultTableModel) táblázat.getModel();
+        float p35 = perc35.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float p180 = perc180.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float k2 = klasszik2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float k3 = klasszik3.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float k4 = klasszik4.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        model.addRow(new Object[]{title, p35, p180, k2, k3, k4});
+    }
+    
+    private void removeRow(int index) {
+        táblázat.remove(index);
+    }
+    
+    public void refreshTáblázat() {
+        DefaultTableModel model = (DefaultTableModel) táblázat.getModel();
+        int rowCount = model.getRowCount();
+        for ( int i = 0; i < rowCount; i++) {
+            model.removeRow(i);
+        }
+        
+        int tabCount = tabbedPane.getTabCount() - 1;
+        for ( int i = 0; i < tabCount; i++ ) {
+            System.out.println(i + ": " + tabbedPane.getComponent(i));
+            Számlaadatok tab = (Számlaadatok) tabbedPane.getComponent(i);
+            addRowToTable(tab.getHónapnév(), 
+                    tab.getBelülPerc(), tab.getBelülDarab(), 
+                    tab.getKívülPerc(), tab.getKívülDarab(), 
+                    tab.getVezetékesPerc(), tab.getVezetékesDarab(), 
+                    tab.getSmsDarab(), tab.getCsaládiDarab());
+        }
+        System.out.println("");
+    }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int index = tabbedPane.getSelectedIndex();
+        if ( e.getClickCount() == 2 && tabbedPane.getTabCount() > 2 ) {
+            tabbedPane.remove(index);
+            removeRow(index);
+        } else if ( e.getClickCount() == 1 ) {
+            if ( index == tabbedPane.getTabCount() - 1 ) {
+                tabbedPane.add(new Számlaadatok(), "Számlaadatok", index);
+                tabbedPane.setSelectedIndex(index);
+            }
+        }
     }
 
     /**
@@ -38,83 +112,32 @@ public class Ablak extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
-        tarifaCombo = new javax.swing.JComboBox();
-        számol = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        végösszegKijelző = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        számlaadatok1 = new telenorkalkuláció.Számlaadatok();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        tabbedPane = new javax.swing.JTabbedPane();
+        számlaadatok = new telenorkalkuláció.Számlaadatok();
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        táblázat = new javax.swing.JTable();
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Telenor tarifa kalkuláció");
+        setIconImage(logo);
 
-        jLabel14.setText("Tarifacsomag:");
-
-        tarifaCombo.setModel(model);
-
-        számol.setText("Számol");
-        számol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                számolActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tarifaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(számol)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(tarifaCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(számol))
-                    .addComponent(jLabel14))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel15.setText("Számla végösszege a kiválasztott tarifacsomagban:");
-
-        végösszegKijelző.setText(" ");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(végösszegKijelző, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(végösszegKijelző, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Számlaadatok", számlaadatok1);
+        tabbedPane.addTab("Számlaadatok", számlaadatok);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,10 +147,35 @@ public class Ablak extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 174, Short.MAX_VALUE)
+            .addGap(0, 180, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Új...", jPanel1);
+        tabbedPane.addTab("Új...", jPanel1);
+
+        táblázat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Hónap", "35 Perc", "180 Perc", "Klasszik 2", "Klasszik 3", "Klasszik 4"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(táblázat);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,43 +183,54 @@ public class Ablak extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabbedPane)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void számolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_számolActionPerformed
-        
-    }//GEN-LAST:event_számolActionPerformed
-
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private telenorkalkuláció.Számlaadatok számlaadatok1;
-    private javax.swing.JButton számol;
-    private javax.swing.JComboBox tarifaCombo;
-    private javax.swing.JLabel végösszegKijelző;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private telenorkalkuláció.Számlaadatok számlaadatok;
+    private javax.swing.JTabbedPane tabbedPane;
+    private javax.swing.JTable táblázat;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        
+    }
+
 }
