@@ -17,6 +17,7 @@ import telenorkalkuláció.csomagok.Klasszik;
 import telenorkalkuláció.csomagok.Klasszik1;
 import telenorkalkuláció.csomagok.Perc;
 import telenorkalkuláció.csomagok.SmartTarifa;
+import telenorkalkuláció.csomagok.SmarttarifaExtra;
 
 /**
  *
@@ -29,9 +30,12 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
     private Perc perc180 = new Perc(5597, 180, 31.1f, 31.1f);
     private Klasszik1 klasszik1 = new Klasszik1(1690, 38, 40, 40);
     private Klasszik klasszik2 = new Klasszik(2590, 36.5f, 39, 39);
-    private Klasszik klasszik3 = new Klasszik(3990, 34f, 38, 38);
+//    private Klasszik klasszik3 = new Klasszik(3990, 34f, 38, 38);
 //    private Klasszik klasszik4 = new Klasszik(5590, 31.5f, 34.5f, 34.5f);
     private SmartTarifa smart2 = new SmartTarifa(3190, 32, 36, 39, 39);
+//    private SmartTarifa smart3 = new SmartTarifa(5290, 26, 30, 37, 37);
+    private SmarttarifaExtra smartExtra1 = new SmarttarifaExtra(2790, 30, 20, 41, 41);
+    private SmarttarifaExtra smartExtra2 = new SmarttarifaExtra(4790, 60, 40, 38, 38);
     
     /**
      * Creates new form Ablak
@@ -61,13 +65,19 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
         float k2 = klasszik2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
-        float k3 = klasszik3.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
-                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+//        float k3 = klasszik3.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+//                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
 //        float k4 = klasszik4.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
 //                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
         float s2 = smart2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
-        model.addRow(new Object[]{title, p35, p180, k1, k2, k3, s2});
+//        float s3 = smart3.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+//                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float se1 = smartExtra1.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float se2 = smartExtra2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        model.addRow(new Object[]{title, p35, p180, k1, k2, s2, se1, se2});
     }
     
     private void removeRow(int index) {
@@ -166,14 +176,14 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
 
             },
             new String [] {
-                "Hónap", "35 Perc", "180 Perc", "Klasszik 1", "Klasszik 2", "Klasszik 3", "Smarttarifa 2"
+                "Hónap", "35 Perc", "180 Perc", "Klasszik 1", "Klasszik 2", "Smarttarifa 2", "Smarttarifa Extra 1", "Smarttarifa Extra 2"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

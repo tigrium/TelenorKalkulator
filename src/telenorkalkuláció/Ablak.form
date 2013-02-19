@@ -125,14 +125,15 @@
         <Component class="javax.swing.JTable" name="t&#xe1;bl&#xe1;zat">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="7" rowCount="0">
+              <Table columnCount="8" rowCount="0">
                 <Column editable="false" title="H&#xf3;nap" type="java.lang.String"/>
                 <Column editable="false" title="35 Perc" type="java.lang.Float"/>
                 <Column editable="false" title="180 Perc" type="java.lang.Float"/>
                 <Column editable="false" title="Klasszik 1" type="java.lang.Float"/>
                 <Column editable="false" title="Klasszik 2" type="java.lang.Float"/>
-                <Column editable="false" title="Klasszik 3" type="java.lang.Float"/>
                 <Column editable="false" title="Smarttarifa 2" type="java.lang.Float"/>
+                <Column editable="false" title="Smarttarifa Extra 1" type="java.lang.Float"/>
+                <Column editable="false" title="Smarttarifa Extra 2" type="java.lang.Float"/>
               </Table>
             </Property>
           </Properties>
