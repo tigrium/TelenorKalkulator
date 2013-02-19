@@ -12,12 +12,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JTabbedPane;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import telenorkalkuláció.csomagok.Klasszik;
+import telenorkalkuláció.csomagok.Klasszik1;
 import telenorkalkuláció.csomagok.Perc;
+import telenorkalkuláció.csomagok.SmartTarifa;
 
 /**
  *
@@ -26,11 +25,13 @@ import telenorkalkuláció.csomagok.Perc;
 public class Ablak extends javax.swing.JFrame implements MouseListener {
     private BufferedImage logo;
     
-    private Perc perc35 = new Perc(1415, 35, 4.5f, 4.5f);
+    private Perc perc35 = new Perc(1415, 35, 40.5f, 40.5f);
     private Perc perc180 = new Perc(5597, 180, 31.1f, 31.1f);
+    private Klasszik1 klasszik1 = new Klasszik1(1690, 38, 40, 40);
     private Klasszik klasszik2 = new Klasszik(2590, 36.5f, 39, 39);
     private Klasszik klasszik3 = new Klasszik(3990, 34f, 38, 38);
-    private Klasszik klasszik4 = new Klasszik(5590, 31.5f, 34.5f, 34.5f);
+//    private Klasszik klasszik4 = new Klasszik(5590, 31.5f, 34.5f, 34.5f);
+    private SmartTarifa smart2 = new SmartTarifa(3190, 32, 36, 39, 39);
     
     /**
      * Creates new form Ablak
@@ -56,37 +57,40 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
         float p180 = perc180.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float k1 = klasszik1.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
         float k2 = klasszik2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
         float k3 = klasszik3.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
-        float k4 = klasszik4.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+//        float k4 = klasszik4.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
+//                vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
+        float s2 = smart2.számít(belülPerc, belülDarab, kívülPerc, kívülDarab, 
                 vezetékesPerc, vezetékesDarab, smsDarab, családiDarab);
-        model.addRow(new Object[]{title, p35, p180, k2, k3, k4});
+        model.addRow(new Object[]{title, p35, p180, k1, k2, k3, s2});
     }
     
     private void removeRow(int index) {
         táblázat.remove(index);
     }
     
-    public void refreshTáblázat() {
+    public void save() {
         DefaultTableModel model = (DefaultTableModel) táblázat.getModel();
         int rowCount = model.getRowCount();
         for ( int i = 0; i < rowCount; i++) {
-            model.removeRow(i);
+            model.removeRow(0);
         }
         
         int tabCount = tabbedPane.getTabCount() - 1;
         for ( int i = 0; i < tabCount; i++ ) {
-            System.out.println(i + ": " + tabbedPane.getComponent(i));
             Számlaadatok tab = (Számlaadatok) tabbedPane.getComponent(i);
+            tabbedPane.setTitleAt(i, tab.getHónapnév());
             addRowToTable(tab.getHónapnév(), 
                     tab.getBelülPerc(), tab.getBelülDarab(), 
                     tab.getKívülPerc(), tab.getKívülDarab(), 
                     tab.getVezetékesPerc(), tab.getVezetékesDarab(), 
                     tab.getSmsDarab(), tab.getCsaládiDarab());
         }
-        System.out.println("");
     }
     
     @Override
@@ -97,8 +101,12 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
             removeRow(index);
         } else if ( e.getClickCount() == 1 ) {
             if ( index == tabbedPane.getTabCount() - 1 ) {
-                tabbedPane.add(new Számlaadatok(), "Számlaadatok", index);
+                tabbedPane.remove(tabbedPane.getTabCount()-1);
+                Számlaadatok újTab = new Számlaadatok();
+                tabbedPane.addTab("Számlaadatok", újTab);
                 tabbedPane.setSelectedIndex(index);
+                
+                tabbedPane.addTab("Új...", null);
             }
         }
     }
@@ -119,6 +127,7 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         táblázat = new javax.swing.JTable();
+        mentés = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -147,7 +156,7 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+            .addGap(0, 168, Short.MAX_VALUE)
         );
 
         tabbedPane.addTab("Új...", jPanel1);
@@ -157,14 +166,14 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
 
             },
             new String [] {
-                "Hónap", "35 Perc", "180 Perc", "Klasszik 2", "Klasszik 3", "Klasszik 4"
+                "Hónap", "35 Perc", "180 Perc", "Klasszik 1", "Klasszik 2", "Klasszik 3", "Smarttarifa 2"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -177,6 +186,13 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
         });
         jScrollPane2.setViewportView(táblázat);
 
+        mentés.setText("Mentés");
+        mentés.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mentésActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -185,21 +201,30 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tabbedPane)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(mentés)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mentés)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mentésActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mentésActionPerformed
+        save();
+    }//GEN-LAST:event_mentésActionPerformed
 
     
     
@@ -208,6 +233,7 @@ public class Ablak extends javax.swing.JFrame implements MouseListener {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton mentés;
     private telenorkalkuláció.Számlaadatok számlaadatok;
     private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable táblázat;

@@ -5,7 +5,6 @@
 package telenorkalkuláció;
 
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import telenorkalkuláció.csomagok.Klasszik;
 
 /**
@@ -80,7 +79,6 @@ public class Számlaadatok extends javax.swing.JPanel {
         kívülPerc = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         vezetékesDarab = new javax.swing.JTextField();
-        ment = new javax.swing.JButton();
 
         jLabel9.setText("darab");
 
@@ -109,13 +107,6 @@ public class Számlaadatok extends javax.swing.JPanel {
         jLabel16.setText("Hónap");
 
         jLabel4.setText("Hálózaton kívüli mobilhívások");
-
-        ment.setText("Mentés");
-        ment.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mentActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -172,10 +163,6 @@ public class Számlaadatok extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(kívülPerc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ment)
-                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,30 +212,22 @@ public class Számlaadatok extends javax.swing.JPanel {
                             .addComponent(smsDarab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12)
                             .addComponent(jLabel13))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(ment)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mentActionPerformed
-        System.out.println("save");
-        save();
-        System.out.println("");
-    }//GEN-LAST:event_mentActionPerformed
-
-    private void save() {
-        JTabbedPane parent = (JTabbedPane) getParent();
-        int currentIndex = parent.getSelectedIndex();
-        parent.setTitleAt(currentIndex, hónapNév.getText());
-        Ablak ablak = TelenorKalkuláció.getAblak();
-        ablak.refreshTáblázat();
-//        ablak.addRowToTable(hónapNév.getText(), 
-//                getÉrték(belülPerc.getText()), getÉrték(belülDarab.getText()), 
-//                getÉrték(kívülPerc.getText()), getÉrték(kívülDarab.getText()), 
-//                getÉrték(vezetékesPerc.getText()), getÉrték(vezetékesDarab.getText()), 
-//                getÉrték(smsDarab.getText()), getÉrték(családiDarab.getText()));
-    }
+//    private void save() {
+//        JTabbedPane parent = (JTabbedPane) getParent();
+//        int currentIndex = parent.getSelectedIndex();
+//        parent.setTitleAt(currentIndex, hónapNév.getText());
+//        Ablak ablak = TelenorKalkuláció.getAblak();
+//        ablak.save();
+////        ablak.addRowToTable(hónapNév.getText(), 
+////                getÉrték(belülPerc.getText()), getÉrték(belülDarab.getText()), 
+////                getÉrték(kívülPerc.getText()), getÉrték(kívülDarab.getText()), 
+////                getÉrték(vezetékesPerc.getText()), getÉrték(vezetékesDarab.getText()), 
+////                getÉrték(smsDarab.getText()), getÉrték(családiDarab.getText()));
+//    }
 
     public int getBelülDarab() {
         return getÉrték(belülDarab.getText());
@@ -303,7 +282,6 @@ public class Számlaadatok extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField kívülDarab;
     private javax.swing.JTextField kívülPerc;
-    private javax.swing.JButton ment;
     private javax.swing.JTextField smsDarab;
     private javax.swing.JTextField vezetékesDarab;
     private javax.swing.JTextField vezetékesPerc;

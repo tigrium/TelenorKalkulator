@@ -54,6 +54,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="tabbedPane" max="32767" attributes="0"/>
                   <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Component id="mentés" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -63,9 +67,11 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="tabbedPane" min="-2" max="-2" attributes="0"/>
+              <Component id="tabbedPane" min="-2" pref="196" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane2" min="-2" pref="213" max="-2" attributes="0"/>
+              <Component id="mentés" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane2" min="-2" pref="196" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -102,7 +108,7 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="180" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="168" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -119,18 +125,27 @@
         <Component class="javax.swing.JTable" name="t&#xe1;bl&#xe1;zat">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="0">
+              <Table columnCount="7" rowCount="0">
                 <Column editable="false" title="H&#xf3;nap" type="java.lang.String"/>
                 <Column editable="false" title="35 Perc" type="java.lang.Float"/>
                 <Column editable="false" title="180 Perc" type="java.lang.Float"/>
+                <Column editable="false" title="Klasszik 1" type="java.lang.Float"/>
                 <Column editable="false" title="Klasszik 2" type="java.lang.Float"/>
                 <Column editable="false" title="Klasszik 3" type="java.lang.Float"/>
-                <Column editable="false" title="Klasszik 4" type="java.lang.Float"/>
+                <Column editable="false" title="Smarttarifa 2" type="java.lang.Float"/>
               </Table>
             </Property>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="ment&#xe9;s">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ment&#xe9;s"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ment&#xe9;sActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>
